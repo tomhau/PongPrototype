@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-
+<?import javafx.scene.layout.StackPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <bottom>
@@ -23,10 +23,16 @@
          <children>
             <Button fx:id="b_left" mnemonicParsing="false" onAction="#handleLeft" prefHeight="31.0" prefWidth="198.0" text="&lt;-" />
             <Button fx:id="b_right" mnemonicParsing="false" onAction="#handleRight" prefHeight="31.0" prefWidth="196.0" text="-&gt;" GridPane.columnIndex="3" />
+            <Button fx:id="b_start" mnemonicParsing="false" onAction="#handleStart" prefHeight="31.0" prefWidth="192.0" text="start" GridPane.columnIndex="2" />
          </children>
       </GridPane>
    </bottom>
    <center>
-      <Canvas fx:id="background" height="550.0" width="800.0" BorderPane.alignment="CENTER" />
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Canvas fx:id="foreground" height="552.0" opacity="0.5" width="788.0" />
+            <Canvas fx:id="background" height="550.0" width="800.0" />
+         </children>
+      </StackPane>
    </center>
 </BorderPane>
