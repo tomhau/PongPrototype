@@ -14,10 +14,9 @@ public class Ball {
 
     private int h;
 
-    private final int STEP = 10;
 
-    private final int DX = 5;
-    private final int DY = 5;
+    private int DX = 5;
+    private int DY = 5;
 
     public Ball(Color color, int x, int y, int w, int h) {
 
@@ -36,6 +35,11 @@ public class Ball {
         this.y = y;
     }
 
+
+
+    public void setDY(int dy){
+        this.DY = dy;
+    }
 
 
     public Color getColor(){
@@ -64,8 +68,11 @@ public class Ball {
     }
 
     // This is too simple can only move down and from left to right
-    
-    public void move(){
+
+    public synchronized void move(){
+        System.out.println("current position of the ball "+this.getX()+","+this.getY());
+
+
        setX(x+DX);
        setY(y+DY);
     }

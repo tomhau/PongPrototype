@@ -23,29 +23,31 @@ public class Controller {
 
 
     // The models (so far)
-    Paddle paddle = new Paddle(Color.BROWN,300,500,150,40);
-    Ball ball = new Ball(Color.RED, 0,0,30,30);
+    // Paddle paddle = new Paddle(Color.BROWN,300,500,150,40);
+    // Ball ball = new Ball(Color.RED, 0,0,30,30);
+
+    Game game = new Game();
 
 
 
     @FXML
     public void handleLeft(Event e){
-        System.out.println("current position of the paddle "+paddle.getX()+","+paddle.getY());
+        System.out.println("current position of the paddle "+game.getPaddle().getX()+","+game.getPaddle().getY());
         // slette den oprindelige paddle
         erasePaddle();
         // flytte paddlen til venstre
-        paddle.moveLeft();
+        game.getPaddle().moveLeft();
         // tegne paddlen (igen)
         drawPaddle();
     }
 
     @FXML
     public void handleRight(Event e){
-        System.out.println("current position of the paddle "+paddle.getX()+","+paddle.getY());
+        System.out.println("current position of the paddle "+game.getPaddle().getX()+","+game.getPaddle().getY());
         // slette den oprindelige paddle
         erasePaddle();
         // flytte paddlen til højre
-        paddle.moveRight();
+        game.getPaddle().moveRight();
         // tegne paddlen (igen)
         drawPaddle();
     }
@@ -57,27 +59,27 @@ public class Controller {
         drawPaddle();
     }
 
-    public void drawBall(){
+    public synchronized void drawBall(){
         GraphicsContext gc = foreground.getGraphicsContext2D();
-        gc.setFill(ball.getColor());
-        gc.fillOval(ball.getX(),ball.getY(),ball.getW(),ball.getH());
+        gc.setFill(game.getBall().getColor());
+        gc.fillOval(game.getBall().getX(),game.getBall().getY(),game.getBall().getW(),game.getBall().getH());
     }
 
-    public void drawPaddle(){
+    public synchronized void drawPaddle(){
         GraphicsContext gc = background.getGraphicsContext2D();
-        gc.setFill(paddle.getColor());
-        gc.fillRect(paddle.getX(),paddle.getY(),paddle.getW(),paddle.getH());
+        gc.setFill(game.getPaddle().getColor());
+        gc.fillRect(game.getPaddle().getX(),game.getPaddle().getY(),game.getPaddle().getW(),game.getPaddle().getH());
     }
 
-    public void eraseBall(){
+    public synchronized void eraseBall(){
         GraphicsContext gc = foreground.getGraphicsContext2D();
-        gc.clearRect(ball.getX(),ball.getY(),ball.getW(),ball.getH());
+        gc.clearRect(game.getBall().getX(),game.getBall().getY(),game.getBall().getW(),game.getBall().getH());
 
     }
 
-    public void erasePaddle(){
+    public synchronized void erasePaddle(){
         GraphicsContext gc = background.getGraphicsContext2D();
-        gc.clearRect(paddle.getX(),paddle.getY(),paddle.getW(),paddle.getH());
+        gc.clearRect(game.getPaddle().getX(),game.getPaddle().getY(),game.getPaddle().getW(),game.getPaddle().getH());
 
     }
 
@@ -91,19 +93,23 @@ public class Controller {
             @Override
             public void run(){
 
-                System.out.println("current position of the ball "+ball.getX()+","+ball.getY());
 
 
                 // slette den oprindelige bold
                 eraseBall();
                 // flytte bolden
-                ball.move();
+                game.getBall().move();
+
+                boolean hit = game.ballHitWall();
+
+                System.out.println("hit="+hit);
+
                 // tegne bolden
                 drawBall();
             }
         };
 
-        timer.schedule(task,1000, 1000);
+        timer.schedule(task,1000, 100);
 
 
     }
